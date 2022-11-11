@@ -125,16 +125,27 @@ export function handleStrategyReported_v0_3_0_v0_3_1(
       BIGINT_ZERO,
       event
     );
+    let vaultContractAddress = event.address;
+    if (!strategyReport) {
+      log.warning(
+        '[Vault mappings] Strategy report NOT created. Handler is finishing. TxHash: {} - Strategy: {} - Vault: {}',
+        [
+          event.transaction.hash.toHexString(),
+          event.params.strategy.toHexString(),
+          vaultContractAddress.toHexString(),
+        ]
+      );
+      return;
+    }
 
     log.info(
       '[Vault mappings] Updating price per share (strategy reported): {}',
       [event.transaction.hash.toHexString()]
     );
-    let vaultContractAddress = event.address;
     let vaultContract = VaultContract.bind(vaultContractAddress);
     vaultLibrary.strategyReported(
       ethTransaction,
-      strategyReport!,
+      strategyReport,
       vaultContract,
       vaultContractAddress
     );
@@ -177,16 +188,27 @@ export function handleStrategyReported(event: StrategyReportedEvent): void {
       event.params.debtPaid,
       event
     );
+    let vaultContractAddress = event.address;
+    if (!strategyReport) {
+      log.warning(
+        '[Vault mappings] Strategy report NOT created. Handler is finishing. TxHash: {} - Strategy: {} - Vault: {}',
+        [
+          event.transaction.hash.toHexString(),
+          event.params.strategy.toHexString(),
+          vaultContractAddress.toHexString(),
+        ]
+      );
+      return;
+    }
 
     log.info(
       '[Vault mappings] Updating price per share (strategy reported): {}',
       [event.transaction.hash.toHexString()]
     );
-    let vaultContractAddress = event.address;
     let vaultContract = VaultContract.bind(vaultContractAddress);
     vaultLibrary.strategyReported(
       ethTransaction,
-      strategyReport!,
+      strategyReport,
       vaultContract,
       vaultContractAddress
     );
