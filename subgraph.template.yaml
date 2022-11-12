@@ -72,6 +72,8 @@ dataSources:
           handler: handleNewRelease
         - event: NewVault(indexed address,indexed uint256,address,string)
           handler: handleNewVault
+        - event: NewVault(indexed address,indexed uint256,uint256,address,string)
+          handler: handleNewVaultInVaultRegistry
         - event: NewExperimentalVault(indexed address,indexed address,address,string)
           handler: handleNewExperimentalVault
         - event: VaultTagged(address,string)

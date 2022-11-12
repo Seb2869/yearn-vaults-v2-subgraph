@@ -1,14 +1,21 @@
-import { dataSource, log, Address } from '@graphprotocol/graph-ts';
+import {
+  dataSource,
+  log,
+  Address,
+  ethereum,
+  BigInt,
+} from '@graphprotocol/graph-ts';
 import {
   NewRelease as NewReleaseEvent,
   NewVault as NewVaultEvent,
+  NewVault1 as NewVault1Event,
   NewExperimentalVault as NewExperimentalVaultEvent,
   VaultTagged as VaultTaggedEvent,
 } from '../../generated/Registry/Registry';
 import { getOrCreateTransactionFromEvent } from '../utils/transaction';
 import * as vaultLibrary from '../utils/vault/vault';
 import * as registryLibrary from '../utils/registry/registry';
-import { DO_CREATE_VAULT_TEMPLATE } from '../utils/constants';
+import { BIGINT_ZERO, DO_CREATE_VAULT_TEMPLATE } from '../utils/constants';
 
 export function handleNewRelease(event: NewReleaseEvent): void {
   let registryAddress = dataSource.address();
@@ -47,19 +54,43 @@ export function handleNewReleaseInner(
 
 export function handleNewVault(event: NewVaultEvent): void {
   let registryAddress = dataSource.address();
-  handleNewVaultInner(registryAddress, event);
+  handleNewVaultInner(
+    registryAddress,
+    event.params.api_version,
+    event.params.deployment_id,
+    event.params.token,
+    event.params.vault,
+    event
+  );
+}
+
+export function handleNewVaultInVaultRegistry(event: NewVault1Event): void {
+  let registryAddress = dataSource.address();
+
+  handleNewVaultInner(
+    registryAddress,
+    event.params.apiVersion,
+    BigInt.zero(),
+    event.params.token,
+    event.params.vault,
+    event
+  );
 }
 
 /** We use an inner function because we cannot mock dataSource yet. https://github.com/LimeChain/matchstick/issues/168 */
 export function handleNewVaultInner(
   registryAddress: Address,
-  event: NewVaultEvent
+  apiVersion: string,
+  _deploymentId: BigInt,
+  _tokenAddress: Address,
+  vaultAddress: Address,
+  event: ethereum.Event
 ): void {
   log.info(
     '[Registry] NewVault: Registry {} - New vault {} - Sender {} - TX {}',
     [
       registryAddress.toHexString(),
-      event.params.vault.toHexString(),
+      vaultAddress.toHexString(),
       event.transaction.from.toHexString(),
       event.transaction.hash.toHexString(),
     ]
@@ -69,9 +100,9 @@ export function handleNewVaultInner(
   vaultLibrary.create(
     registry,
     ethTransaction,
-    event.params.vault,
+    vaultAddress,
     'Endorsed',
-    event.params.api_version,
+    apiVersion,
     DO_CREATE_VAULT_TEMPLATE
   );
 }

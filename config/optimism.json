@@ -4,13 +4,24 @@
   "callHandlersEnabled": false,
 
   "Registry": "0x1ba4eB0F44AB82541E56669e18972b0d6037dfE0",
-  "registryV2Enabled": false,
-  "registryV2Address": "0x0000000000000000000000000000000000000000",
-  "registryV2StartBlock": "9999999999",
+  "registryV2Enabled": true,
+  "registryV2Address": "0x79286Dd38C9017E5423073bAc11F53357Fc5C128",
+  "registryV2StartBlock": "22451100",
 
   "manualVaults": [],
-  "vaultsWithPreregisteredStrategies": [],
-
+  "vaultsWithPreregisteredStrategies": [
+    {
+      "name": "OPyvDAIVault",
+      "address": "0x33D54628051fCFAabb898aF9b1b375F1A991A927",
+      "startBlock": "22577400",
+      "mappingFile": "./src/mappings/op/yvDAIVaultMappings.ts",
+      "comments": [
+        "Custom yvDAIVault (Optimism) From: 22577448 to 27372960",
+        "Strategy was added before vault was registered.",
+        "This data source handles mappings that predate being added to the registry."
+      ]
+    }
+  ],
   "graftEnabled": false,
   "graftBase": "subgraph_deployment_id",
   "graftBlock": "0",

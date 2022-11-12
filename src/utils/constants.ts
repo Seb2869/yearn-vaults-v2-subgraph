@@ -50,6 +50,7 @@ export let CURVE_SETH_VAULT_END_BLOCK_CUSTOM = BigInt.fromI32(11881933);
 export let YV_WBTC_VAULT_END_BLOCK_CUSTOM = BigInt.fromI32(12341475);
 export let YV_LINK_VAULT_END_BLOCK_CUSTOM = BigInt.fromI32(12586056);
 
+export let OP_DAI_VAULT_VAULT_END_BLOCK_CUSTOM = BigInt.fromI32(11881933);
 /*
   The 4 vaults were added to Registry at https://ftmscan.com/tx/0xe270df804fe8262f42827ed479f845553ef019501ddfea0d94f49c4d6750d115
   block #18456258
