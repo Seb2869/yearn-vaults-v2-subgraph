@@ -117,6 +117,8 @@ type Vault @entity {
   id: ID!
   "Ethereum Transaction"
   transaction: Transaction!
+  "Vault type defined in Registry v3. Default/legacy value is 99999999"
+  type: BigInt!
   "The registry address"
   registry: Registry!
   "Token this Vault will accrue"

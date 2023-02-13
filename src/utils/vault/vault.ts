@@ -14,6 +14,7 @@ import { Vault as VaultTemplate } from '../../../generated/templates';
 import {
   BIGINT_ZERO,
   DO_CREATE_VAULT_TEMPLATE,
+  REGISTRY_V3_VAULT_TYPE_LEGACY,
   ZERO_ADDRESS,
 } from '../constants';
 import { getOrCreateToken } from '../token';
@@ -123,7 +124,8 @@ export function create(
   vault: Address,
   classification: string,
   apiVersion: string,
-  createTemplate: boolean
+  createTemplate: boolean,
+  vaultType: BigInt
 ): Vault {
   log.info('[Vault] Create vault {}', [vault.toHexString()]);
   let id = vault.toHexString();
@@ -131,6 +133,7 @@ export function create(
   if (vaultEntity == null) {
     vaultEntity = createNewVaultFromAddress(vault, transaction);
     vaultEntity.strategyIds = [];
+    vaultEntity.type = vaultType;
     vaultEntity.availableDepositLimit = BIGINT_ZERO;
     vaultEntity.classification = classification;
     vaultEntity.registry = registry.id;
@@ -184,7 +187,8 @@ export function release(
       vault,
       'Released',
       apiVersion,
-      DO_CREATE_VAULT_TEMPLATE
+      DO_CREATE_VAULT_TEMPLATE,
+      REGISTRY_V3_VAULT_TYPE_LEGACY
     ) as Vault;
   } else {
     log.warning('[Vault] Registry {} does not found in vault releasing: {}', [
@@ -749,7 +753,8 @@ export function createCustomVaultIfNeeded(
     vaultAddress,
     classification,
     apiVersion,
-    createTemplate
+    createTemplate,
+    REGISTRY_V3_VAULT_TYPE_LEGACY
   );
 }
 

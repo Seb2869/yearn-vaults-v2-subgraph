@@ -33,7 +33,7 @@
     "deploy:arbitrum": "yarn build:arbitrum && yarn thegraph:deploy:arbitrum",
     "deploy:optimism": "yarn build:optimism && yarn thegraph:deploy:optimism",
     "release": "standard-version",
-    "test": "yarn clean && yarn codegen && graph test -v 0.4.0",
+    "test": "yarn clean && yarn codegen && graph test -v 0.5.0",
     "coverage": "graph test -v 0.4.0 --coverage",
     "lint:check": "prettier --check './**'",
     "lint:fix": "sort-package-json && prettier --write ./**",
@@ -58,8 +58,9 @@
     "prettier": "2.2.1",
     "sort-package-json": "1.49.0",
     "standard-version": "9.1.1"
-  },
+  }, 
   "//": [
     "graph-cli, graph-ts, and matchstick-as often have breaking changes in their minor versions, so they are pinned."
   ]
 }
+

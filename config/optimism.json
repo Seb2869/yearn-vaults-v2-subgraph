@@ -8,6 +8,10 @@
   "registryV2Address": "0x79286Dd38C9017E5423073bAc11F53357Fc5C128",
   "registryV2StartBlock": "22451100",
 
+  "registryV3Enabled": false,
+  "registryV3Address": "0x0000000000000000000000000000000000000000",
+  "registryV3StartBlock": "22451100",
+
   "manualVaults": [],
   "vaultsWithPreregisteredStrategies": [
     {

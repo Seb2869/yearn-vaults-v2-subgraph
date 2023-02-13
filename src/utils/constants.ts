@@ -86,3 +86,4 @@ export const ETH_MAINNET_NETWORK = 'mainnet';
 export const FTM_MAINNET_NETWORK = 'fantom';
 export const ARB_MAINNET_NETWORK = 'arbitrum-one';
 export const OPS_MAINNET_NETWORK = 'optimism';
+export const REGISTRY_V3_VAULT_TYPE_LEGACY = BigInt.fromI32(99999999);

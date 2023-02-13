@@ -12,10 +12,14 @@ import {
   NewExperimentalVault as NewExperimentalVaultEvent,
   VaultTagged as VaultTaggedEvent,
 } from '../../generated/Registry/Registry';
+import { NewVault as NewVaultV3Event } from '../../generated/RegistryV3/RegistryV3';
 import { getOrCreateTransactionFromEvent } from '../utils/transaction';
 import * as vaultLibrary from '../utils/vault/vault';
 import * as registryLibrary from '../utils/registry/registry';
-import { BIGINT_ZERO, DO_CREATE_VAULT_TEMPLATE } from '../utils/constants';
+import {
+  DO_CREATE_VAULT_TEMPLATE,
+  REGISTRY_V3_VAULT_TYPE_LEGACY,
+} from '../utils/constants';
 
 export function handleNewRelease(event: NewReleaseEvent): void {
   let registryAddress = dataSource.address();
@@ -60,6 +64,7 @@ export function handleNewVault(event: NewVaultEvent): void {
     event.params.deployment_id,
     event.params.token,
     event.params.vault,
+    REGISTRY_V3_VAULT_TYPE_LEGACY,
     event
   );
 }
@@ -73,6 +78,7 @@ export function handleNewVaultInVaultRegistry(event: NewVault1Event): void {
     BigInt.zero(),
     event.params.token,
     event.params.vault,
+    REGISTRY_V3_VAULT_TYPE_LEGACY,
     event
   );
 }
@@ -84,6 +90,7 @@ export function handleNewVaultInner(
   _deploymentId: BigInt,
   _tokenAddress: Address,
   vaultAddress: Address,
+  vaultType: BigInt,
   event: ethereum.Event
 ): void {
   log.info(
@@ -103,7 +110,8 @@ export function handleNewVaultInner(
     vaultAddress,
     'Endorsed',
     apiVersion,
-    DO_CREATE_VAULT_TEMPLATE
+    DO_CREATE_VAULT_TEMPLATE,
+    vaultType
   );
 }
 
@@ -132,7 +140,8 @@ export function handleNewExperimentalVault(
     event.params.vault,
     'Experimental',
     event.params.api_version,
-    DO_CREATE_VAULT_TEMPLATE
+    DO_CREATE_VAULT_TEMPLATE,
+    REGISTRY_V3_VAULT_TYPE_LEGACY
   );
 }
 
@@ -148,4 +157,17 @@ export function handleVaultTagged(event: VaultTaggedEvent): void {
     ]
   );
   vaultLibrary.tag(event.params.vault, event.params.tag);
+}
+
+export function handleNewVaultInRegistryV3(event: NewVaultV3Event): void {
+  let registryAddress = dataSource.address();
+  handleNewVaultInner(
+    registryAddress,
+    event.params.apiVersion,
+    event.params.vaultId,
+    event.params.token,
+    event.params.vault,
+    event.params.vaultType,
+    event
+  );
 }
